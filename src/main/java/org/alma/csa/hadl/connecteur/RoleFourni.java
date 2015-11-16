@@ -1,4 +1,4 @@
-package org.alma.csa.hadl.composant.connecteur;
+package org.alma.csa.hadl.connecteur;
 
 /**
  * Created by Eva on 15/11/16.

@@ -1,4 +1,4 @@
-package org.alma.csa.hadl.composant.connecteur;
+package org.alma.csa.hadl.connecteur;
 
 import org.alma.csa.hadl.composant.ComposantAbstrait;
 

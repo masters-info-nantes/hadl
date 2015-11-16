@@ -1,4 +1,4 @@
-package org.alma.csa.hadl.composant.connecteur;
+package org.alma.csa.hadl.connecteur;
 
 import java.util.HashSet;
 import java.util.Set;
