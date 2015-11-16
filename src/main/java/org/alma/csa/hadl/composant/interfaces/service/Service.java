@@ -11,8 +11,8 @@ import java.util.Set;
  */
 public abstract class Service {
 
-    private Set<PortComposantRequis> portsRequis;
-    private Set<PortComposantFourni> portsFournis;
+    protected Set<PortComposantRequis> portsRequis;
+    protected Set<PortComposantFourni> portsFournis;
 
     public Service(){
         this.portsRequis = new HashSet<>();
