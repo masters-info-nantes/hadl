@@ -1,7 +1,6 @@
 package org.alma.csa.metamodele.client;
 
-import org.alma.csa.hadl.composant.interfaces.service.Service;
-import org.alma.csa.hadl.composant.interfaces.service.ServiceFourni;
+import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
 
 /**
  * Created by jeremy on 16/11/15.

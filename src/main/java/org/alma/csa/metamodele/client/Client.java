@@ -1,8 +1,6 @@
 package org.alma.csa.metamodele.client;
 
-import org.alma.csa.hadl.composant.Composant;
-import org.alma.csa.hadl.composant.ComposantAbstrait;
-import org.alma.csa.hadl.composant.interfaces.port.Port;
+import org.alma.csa.hadl.composants.Composant;
 
 /**
  * Created by jeremy on 16/11/15.
