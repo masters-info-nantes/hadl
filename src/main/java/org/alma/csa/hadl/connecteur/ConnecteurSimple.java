@@ -8,7 +8,7 @@ import java.util.Set;
  */
 public class ConnecteurSimple extends Connecteur {
 
-    private Set<Glue> glues;
+    protected Set<Glue> glues;
 
     public ConnecteurSimple() {
         this.glues = new HashSet<>();

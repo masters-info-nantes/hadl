@@ -9,8 +9,8 @@ import org.alma.csa.hadl.connecteur.RoleFourni;
  * Created by jeremy on 16/11/15.
  */
 public class AttachementRequis extends Attachement {
-    private RoleFourni roleFourni;
-    private Port portRequis;
+    protected RoleFourni roleFourni;
+    protected Port portRequis;
 
     public AttachementRequis(RoleFourni roleFourni, PortComposantRequis portRequis) {
         this.roleFourni = roleFourni;
