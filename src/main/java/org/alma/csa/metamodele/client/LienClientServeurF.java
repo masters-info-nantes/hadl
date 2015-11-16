@@ -8,13 +8,13 @@ import org.alma.csa.hadl.liens.AttachementFourni;
 /**
  * Created by Eva on 15/11/16.
  */
-public class LienClientServiceFourni extends AttachementFourni {
+public class LienClientServeurF extends AttachementFourni {
 
-    public LienClientServiceFourni(RoleRequis role, PortComposantFourni port){
+    public LienClientServeurF(RoleRequis role, PortComposantFourni port){
         super(role,port);
     }
 
-    public LienClientServiceFourni(RoleRequis role, PortConfigurationFourni port){
+    public LienClientServeurF(RoleRequis role, PortConfigurationFourni port){
         super(role,port);
     }
 }

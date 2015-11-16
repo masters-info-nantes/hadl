@@ -8,13 +8,13 @@ import org.alma.csa.hadl.liens.AttachementRequis;
 /**
  * Created by Eva on 15/11/16.
  */
-public class LienClientServiceRequis extends AttachementRequis {
+public class LienClientServeurR extends AttachementRequis {
 
-    public LienClientServiceRequis(RoleFourni role, PortComposantRequis port){
+    public LienClientServeurR(RoleFourni role, PortComposantRequis port){
         super(role,port);
     }
 
-    public LienClientServiceRequis(RoleFourni role, PortConfigurationRequis port){
+    public LienClientServeurR(RoleFourni role, PortConfigurationRequis port){
         super(role,port);
     }
 }

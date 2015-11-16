@@ -2,6 +2,7 @@ package org.alma.csa.hadl.composant;
 
 import org.alma.csa.hadl.composant.interfaces.port.PortComposantFourni;
 import org.alma.csa.hadl.composant.interfaces.port.PortComposantRequis;
+import org.alma.csa.hadl.composant.interfaces.service.Service;
 import org.alma.csa.hadl.composant.interfaces.service.ServiceFourni;
 import org.alma.csa.hadl.composant.interfaces.service.ServiceRequis;
 
@@ -25,5 +26,21 @@ public class Composant extends ComposantAbstrait {
 
         this.servicesRequis = new HashSet<>();
         this.servicesFournis = new HashSet<>();
+    }
+
+    public void ajouterServiceRequis(ServiceRequis service){
+
+        this.portsRequis.addAll(service.getPortsRequis());
+        this.portsFournis.addAll(service.getPortsFournis());
+
+        this.servicesRequis.add(service);
+    }
+
+    public void ajouterServiceFourni(ServiceFourni service){
+
+        this.portsRequis.addAll(service.getPortsRequis());
+        this.portsFournis.addAll(service.getPortsFournis());
+
+        this.servicesFournis.add(service);
     }
 }

@@ -7,8 +7,7 @@ import org.alma.csa.metamodele.server.connection.port.ExternalSocketFourni;
  * Created by Eva on 15/11/16.
  */
 public class ServiceExternalSocketF extends ServiceFourni{
-
-    public ServiceExternalSocketF(ExternalSocketFourni port) {
-        super.portsFournis.add(port);
+    public ServiceExternalSocketF(ExternalSocketFourni externalSocketF) {
+        super.ajouterPortFournis(externalSocketF);
     }
 }

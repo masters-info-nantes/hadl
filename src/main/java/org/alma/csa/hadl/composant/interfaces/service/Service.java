@@ -11,11 +11,27 @@ import java.util.Set;
  */
 public abstract class Service {
 
-    protected Set<PortComposantRequis> portsRequis;
-    protected Set<PortComposantFourni> portsFournis;
+    private Set<PortComposantRequis> portsRequis;
+    private Set<PortComposantFourni> portsFournis;
 
     public Service(){
         this.portsRequis = new HashSet<>();
         this.portsFournis = new HashSet<>();
+    }
+
+    public void ajouterPortRequis(PortComposantRequis port){
+        this.portsRequis.add(port);
+    }
+
+    public void ajouterPortFournis(PortComposantFourni port){
+        this.portsFournis.add(port);
+    }
+
+    public Set<PortComposantRequis> getPortsRequis(){
+        return this.portsRequis;
+    }
+
+    public Set<PortComposantFourni> getPortsFournis(){
+        return this.portsFournis;
     }
 }
