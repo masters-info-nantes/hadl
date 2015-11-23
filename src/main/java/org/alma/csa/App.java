@@ -1,5 +1,10 @@
 package org.alma.csa;
 
+import org.alma.csa.metamodele.server.Serveur;
+import org.alma.csa.metamodele.server.bindings.BindingExternalSocketF;
+import org.alma.csa.metamodele.server.bindings.BindingExternalSocketR;
+import org.alma.csa.metamodele.server.bindings.ExternalSocketConfigF;
+import org.alma.csa.metamodele.server.bindings.ExternalSocketConfigR;
 import org.alma.csa.metamodele.server.composants.connection.ConnectionManager;
 import org.alma.csa.metamodele.server.composants.connection.ports.*;
 import org.alma.csa.metamodele.server.composants.connection.services.*;
@@ -97,6 +102,15 @@ public class App
 
 
 
+        //Port Bindings
+        ExternalSocketConfigF externalSocketConfigF = new ExternalSocketConfigF();
+        ExternalSocketConfigR externalSocketConfigR = new ExternalSocketConfigR();
+
+        //Bindings
+        BindingExternalSocketF bindingExternalSocketF = new BindingExternalSocketF(externalSocketFourni,externalSocketConfigF);
+        BindingExternalSocketR bindingExternalSocketR = new BindingExternalSocketR(externalSocketRequis,externalSocketConfigR);
+
+
         //Role Connection - Database
         RoleDbQueryF roleDbQueryF = new RoleDbQueryF();
         RoleDbQueryR roleDbQueryR = new RoleDbQueryR();
@@ -156,6 +170,24 @@ public class App
         SecurityQuery securityQuery = new SecurityQuery(glueSecurityDatabase,glueDatabaseSecurity);
         SqlQuery sqlQuery = new SqlQuery(glueConnectionDatabase,glueDatabaseConnection);
 
+
+
+        //Serveur
+        Serveur Serveur = new Serveur(connectionManager,securityManager,database,
+                externalSocketConfigF,externalSocketConfigR,
+                clearanceRequest,securityQuery,sqlQuery,
+
+                lienSecurityCheckR,lienSecurityAuthF,
+                lienSecurityCheckF,lienSecurityAuthR,
+
+                lienCheckQueryF,lienSecurityManagerR,
+                lienCheckQueryR,lienSecurityManagerF,
+
+                lienDbQueryF,lienQueryDatabaseR,
+                lienDbQueryR,lienQueryDatabaseF//,
+
+                //bindingExternalSocketF,bindingExternalSocketR
+        );
 
     }
 }
