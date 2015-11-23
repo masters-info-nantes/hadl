@@ -12,13 +12,13 @@ public class BindingRequis extends Binding {
     private PortConfigurationRequis portConfiguration;
     private Port portSource;
 
-    public BindingRequis(PortConfigurationRequis portConfiguration, PortConfigurationRequis portSource){
-        this.portConfiguration = portConfiguration;
+    public BindingRequis(PortConfigurationRequis portSource, PortConfigurationRequis portConfiguration){
         this.portSource = portSource;
+        this.portConfiguration = portConfiguration;
     }
 
-    public BindingRequis(PortConfigurationRequis portConfiguration, PortComposantRequis portSource){
-        this.portConfiguration = portConfiguration;
+    public BindingRequis(PortComposantRequis portSource, PortConfigurationRequis portConfiguration){
         this.portSource = portSource;
+        this.portConfiguration = portConfiguration;
     }
 }

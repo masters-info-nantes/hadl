@@ -1,6 +1,7 @@
 package org.alma.csa.hadl.liens.binding;
 
 import org.alma.csa.hadl.composants.interfaces.ports.Port;
+import org.alma.csa.hadl.composants.interfaces.ports.PortComposantFourni;
 import org.alma.csa.hadl.composants.interfaces.ports.PortComposantRequis;
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationFourni;
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
@@ -13,13 +14,13 @@ public class BindingFourni extends Binding {
     private PortConfigurationFourni portConfiguration;
     private Port portSource;
 
-    public BindingFourni(PortConfigurationFourni portConfiguration, PortConfigurationRequis portSource){
-        this.portConfiguration = portConfiguration;
+    public BindingFourni(PortConfigurationFourni portSource, PortConfigurationFourni portConfiguration){
         this.portSource = portSource;
+        this.portConfiguration = portConfiguration;
     }
 
-    public BindingFourni(PortConfigurationFourni portConfiguration, PortComposantRequis portSource){
-        this.portConfiguration = portConfiguration;
+    public BindingFourni(PortComposantFourni portSource, PortConfigurationFourni portConfiguration){
         this.portSource = portSource;
+        this.portConfiguration = portConfiguration;
     }
 }
