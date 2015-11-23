@@ -20,6 +20,7 @@ public class Serveur extends Configuration {
         super.ajouterComposant(composantSecurity);
         super.ajouterComposant(composantDatabase);
 
-
+        super.ajouterPortFourni(portExternalSocketF);
+        super.ajouterPortRequis(portExternalSocketR);
     }
 }
