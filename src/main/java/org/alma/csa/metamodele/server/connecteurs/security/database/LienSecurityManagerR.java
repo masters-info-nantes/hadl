@@ -7,7 +7,7 @@ import org.alma.csa.metamodele.server.composants.database.ports.SecurityManagerR
  * Created by jeremy on 16/11/15.
  */
 public class LienSecurityManagerR extends AttachementRequis {
-    public LienSecurityManagerR(SecurityManagerRequis portSecurityManagerR, RoleSecurityManangerF roleSecurityManangerF){
+    public LienSecurityManagerR(SecurityManagerRequis portSecurityManagerR, RoleSecurityManagerF roleSecurityManangerF){
         super(portSecurityManagerR, roleSecurityManangerF);
     }
 }

@@ -8,7 +8,7 @@ import org.alma.csa.metamodele.server.connecteurs.connection.security.RoleSecuri
  * Created by jeremy on 16/11/15.
  */
 public class GlueSecurityConnection extends Glue {
-    public GlueSecurityConnection(RoleSecurityCheckR securityCheckR, RoleSecurityAuthF securityAuthF){
-        super(securityCheckR, securityAuthF);
+    public GlueSecurityConnection(RoleSecurityAuthR securityAuthR, RoleSecurityCheckF securityCheckF){
+        super(securityAuthR, securityCheckF);
     }
 }
