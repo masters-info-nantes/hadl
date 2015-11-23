@@ -82,4 +82,24 @@ public class Configuration extends ComposantAbstrait {
 
         return true;
     }
+
+    public boolean ajouterBinding(BindingFourni binding){
+        if(!this.portsConfigurationFournis.contains(binding.getPortConfiguration())){
+            return false;
+        }
+
+        this.bindingsFournis.add(binding);
+
+        return true;
+    }
+
+    public boolean ajouterBinding(BindingRequis binding){
+        if(!this.portsConfigurationRequis.contains(binding.getPortConfiguration())){
+            return false;
+        }
+
+        this.bindingsRequis.add(binding);
+
+        return true;
+    }
 }

@@ -21,4 +21,12 @@ public class BindingRequis extends Binding {
         this.portSource = portSource;
         this.portConfiguration = portConfiguration;
     }
+
+    public Port getPortSource(){
+        return this.portSource;
+    }
+
+    public PortConfigurationRequis getPortConfiguration(){
+        return this.portConfiguration;
+    }
 }

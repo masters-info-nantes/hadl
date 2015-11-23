@@ -3,6 +3,8 @@ package org.alma.csa.metamodele.server;
 import org.alma.csa.hadl.composants.Configuration;
 import org.alma.csa.hadl.liens.attachement.AttachementFourni;
 import org.alma.csa.hadl.liens.attachement.AttachementRequis;
+import org.alma.csa.metamodele.server.bindings.BindingExternalSocketF;
+import org.alma.csa.metamodele.server.bindings.BindingExternalSocketR;
 import org.alma.csa.metamodele.server.bindings.ExternalSocketConfigF;
 import org.alma.csa.metamodele.server.bindings.ExternalSocketConfigR;
 import org.alma.csa.metamodele.server.composants.connection.ConnectionManager;
@@ -44,7 +46,9 @@ public class Serveur extends Configuration {
                    LienCheckQueryR lienCheckQueryR, LienSecurityManagerF lienSecurityManagerF,
 
                    LienDbQueryF lienDbQueryF, LienQueryDatabaseR lienQueryDatabaseR,
-                   LienDbQueryR lienDbQueryR, LienQueryDatabaseF lienQueryDatabaseF
+                   LienDbQueryR lienDbQueryR, LienQueryDatabaseF lienQueryDatabaseF,
+
+                   BindingExternalSocketF bindingExternalSocketF, BindingExternalSocketR bindingExternalSocketR
                    )
     {
         super.ajouterComposant(composantConnection);
@@ -89,5 +93,8 @@ public class Serveur extends Configuration {
             composantDatabase, connecteurSql,
             attachementsFournis, attachementsRequis
         );
+
+        super.ajouterBinding(bindingExternalSocketF);
+        super.ajouterBinding(bindingExternalSocketR);
     }
 }
