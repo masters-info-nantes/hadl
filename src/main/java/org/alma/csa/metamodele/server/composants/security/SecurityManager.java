@@ -10,8 +10,8 @@ import org.alma.csa.metamodele.server.composants.security.services.ServiceSecuri
  * Created by jeremy on 16/11/15.
  */
 public class SecurityManager extends Composant {
-    public SecurityManager(ServiceSecurityAuthF securityAuthF, ServiceSecurityAuthR securityAuthR,
-                           ServiceCheckQueryF checkQueryF, ServiceCheckQueryR checkQueryR)
+    public SecurityManager(ServiceCheckQueryF checkQueryF, ServiceCheckQueryR checkQueryR,
+                           ServiceSecurityAuthF securityAuthF, ServiceSecurityAuthR securityAuthR)
     {
         super.ajouterServiceFourni(securityAuthF);
         super.ajouterServiceRequis(securityAuthR);
