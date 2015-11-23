@@ -5,8 +5,8 @@ import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
 import org.alma.csa.hadl.connecteurs.Connecteur;
 import org.alma.csa.hadl.liens.attachement.AttachementFourni;
 import org.alma.csa.hadl.liens.attachement.AttachementRequis;
-import org.alma.csa.hadl.liens.binding.BindingFourni;
 import org.alma.csa.hadl.liens.binding.BindingRequis;
+import org.alma.csa.hadl.liens.binding.BindingFourni;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,17 +59,27 @@ public class Configuration extends ComposantAbstrait {
         this.portsConfigurationRequis.add(portConfigurationR);
     }
 
-    public boolean ajouterConnecteur(ComposantAbstrait composantA, ComposantAbstrait composantB, Connecteur connecteur){
-        if(this.composantsAbstraits.containsAll(Arrays.asList(composantA, composantB))){
-            Set<ComposantAbstrait> composants = new HashSet<>();
-            composants.add(composantA);
-            composants.add(composantB);
+    public boolean ajouterConnecteur(ComposantAbstrait composantA, ComposantAbstrait composantB,
+                                     Connecteur connecteur, Set<AttachementFourni> attachementsF, Set<AttachementRequis> attachementsR)
+    {
 
-            this.connecteurs.put(connecteur, composants);
-
-            return true;
+        if(attachementsF.size() != attachementsR.size()){
+            return false;
         }
 
-        return false;
+        if(!this.composantsAbstraits.containsAll(Arrays.asList(composantA, composantB))){
+            return false;
+        }
+
+        Set<ComposantAbstrait> composants = new HashSet<>();
+        composants.add(composantA);
+        composants.add(composantB);
+
+        this.connecteurs.put(connecteur, composants);
+
+        this.attachementsFournis.addAll(attachementsF);
+        this.attachementsRequis.addAll(attachementsR);
+
+        return true;
     }
 }
