@@ -1,5 +1,8 @@
 package org.alma.csa;
 
+import org.alma.csa.metamodele.client.ServiceSocketF;
+import org.alma.csa.metamodele.client.SocketFourni;
+import org.alma.csa.metamodele.connecteur.*;
 import org.alma.csa.metamodele.server.Serveur;
 import org.alma.csa.metamodele.server.bindings.BindingExternalSocketF;
 import org.alma.csa.metamodele.server.bindings.BindingExternalSocketR;
@@ -111,6 +114,7 @@ public class App
         BindingExternalSocketR bindingExternalSocketR = new BindingExternalSocketR(externalSocketRequis,externalSocketConfigR);
 
 
+
         //Role Connection - Database
         RoleDbQueryF roleDbQueryF = new RoleDbQueryF();
         RoleDbQueryR roleDbQueryR = new RoleDbQueryR();
@@ -173,7 +177,8 @@ public class App
 
 
         //Serveur
-        Serveur Serveur = new Serveur(connectionManager,securityManager,database,
+        Serveur serveur = new Serveur(
+                connectionManager,securityManager,database,
                 externalSocketConfigF,externalSocketConfigR,
                 clearanceRequest,securityQuery,sqlQuery,
 
@@ -184,10 +189,36 @@ public class App
                 lienCheckQueryR,lienSecurityManagerF,
 
                 lienDbQueryF,lienQueryDatabaseR,
-                lienDbQueryR,lienQueryDatabaseF//,
+                lienDbQueryR,lienQueryDatabaseF,
 
-                //bindingExternalSocketF,bindingExternalSocketR
+                bindingExternalSocketF,bindingExternalSocketR
         );
+
+
+
+        //Port Client
+        SocketFourni socketFourni = new SocketFourni();
+
+        //Service Client
+        ServiceSocketF serviceSocketF = new ServiceSocketF(socketFourni);
+
+
+
+        //Role Client - Serveur
+        RoleClientR roleClientR = new RoleClientR();
+        RoleServeurF roleServeurF = new RoleServeurF();
+
+        //Glue Client - Serveur
+        GlueClientServeur glueClientServeur = new GlueClientServeur(roleClientR,roleServeurF);
+
+        //Connecteur
+        RpcClientServeur rpcClientServeur = new RpcClientServeur(glueClientServeur);
+
+        //Attachement Client - Serveur
+        LienServeurR lienServeurR = new LienServeurR(externalSocketRequis,roleServeurF);
+        LienClientF lienClientF = new LienClientF(socketFourni, roleClientR);
+
+
 
     }
 }
