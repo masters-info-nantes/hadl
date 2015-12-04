@@ -9,24 +9,15 @@ import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
  */
 public class BindingRequis extends Binding {
 
-    private PortConfigurationRequis portConfiguration;
-    private Port portSource;
-
     public BindingRequis(PortConfigurationRequis portSource, PortConfigurationRequis portConfiguration){
-        this.portSource = portSource;
-        this.portConfiguration = portConfiguration;
+        super(portSource, portConfiguration);
     }
 
     public BindingRequis(PortComposantRequis portSource, PortConfigurationRequis portConfiguration){
-        this.portSource = portSource;
-        this.portConfiguration = portConfiguration;
-    }
-
-    public Port getPortSource(){
-        return this.portSource;
+        super(portSource, portConfiguration);
     }
 
     public PortConfigurationRequis getPortConfiguration(){
-        return this.portConfiguration;
+        return (PortConfigurationRequis) super.getPortConfiguration();
     }
 }

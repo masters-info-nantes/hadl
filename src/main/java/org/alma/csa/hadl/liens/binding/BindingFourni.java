@@ -10,24 +10,15 @@ import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
  */
 public class BindingFourni extends Binding {
 
-    private PortConfigurationFourni portConfiguration;
-    private Port portSource;
-
     public BindingFourni(PortConfigurationFourni portSource, PortConfigurationFourni portConfiguration){
-        this.portSource = portSource;
-        this.portConfiguration = portConfiguration;
+        super(portSource, portConfiguration);
     }
 
     public BindingFourni(PortComposantFourni portSource, PortConfigurationFourni portConfiguration){
-        this.portSource = portSource;
-        this.portConfiguration = portConfiguration;
-    }
-
-    public Port getPortSource(){
-        return this.portSource;
+        super(portSource, portConfiguration);
     }
 
     public PortConfigurationFourni getPortConfiguration(){
-        return this.portConfiguration;
+        return (PortConfigurationFourni)super.getPortConfiguration();
     }
 }
