@@ -2,32 +2,30 @@ package org.alma.csa.hadl.composants;
 
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationFourni;
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
+import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
 import org.alma.csa.hadl.connecteurs.Connecteur;
 import org.alma.csa.hadl.liens.attachement.AttachementFourni;
 import org.alma.csa.hadl.liens.attachement.AttachementRequis;
 import org.alma.csa.hadl.liens.binding.BindingRequis;
 import org.alma.csa.hadl.liens.binding.BindingFourni;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by jeremy on 11/11/15.
  */
 public class Configuration extends ComposantAbstrait {
 
+    private static final String CONNECTEUR_COMPOSANTS_KEY = "composants";
+    private static final String CONNECTEUR_ATTACHEMENTS_F_KEY = "attachementsF";
+    private static final String CONNECTEUR_ATTACHEMENTS_R_KEY = "attachementsR";
+
     private Set<ComposantAbstrait> composantsAbstraits;
 
     private Set<PortConfigurationFourni> portsConfigurationFournis;
     private Set<PortConfigurationRequis> portsConfigurationRequis;
 
-    private Set<AttachementFourni> attachementsFournis;
-    private Set<AttachementRequis> attachementsRequis;
-
-    private Map<Connecteur, Set<ComposantAbstrait>> connecteurs;
+    private Map<Connecteur, Map<String, Object>> connecteurs;
 
     private Set<BindingFourni> bindingsFournis;
     private Set<BindingRequis> bindingsRequis;
@@ -37,9 +35,6 @@ public class Configuration extends ComposantAbstrait {
 
         this.portsConfigurationFournis = new HashSet<>();
         this.portsConfigurationRequis = new HashSet<>();
-
-        this.attachementsFournis = new HashSet<>();
-        this.attachementsRequis = new HashSet<>();
 
         this.connecteurs = new HashMap<>();
 
@@ -75,10 +70,12 @@ public class Configuration extends ComposantAbstrait {
         composants.add(composantA);
         composants.add(composantB);
 
-        this.connecteurs.put(connecteur, composants);
+        Map<String, Object> connecteurConfig = new HashMap<>();
+        connecteurConfig.put(this.CONNECTEUR_COMPOSANTS_KEY, composants);
+        connecteurConfig.put(this.CONNECTEUR_ATTACHEMENTS_F_KEY, attachementsF);
+        connecteurConfig.put(this.CONNECTEUR_ATTACHEMENTS_R_KEY, attachementsR);
 
-        this.attachementsFournis.addAll(attachementsF);
-        this.attachementsRequis.addAll(attachementsR);
+        this.connecteurs.put(connecteur, connecteurConfig);
 
         return true;
     }
@@ -101,5 +98,34 @@ public class Configuration extends ComposantAbstrait {
         this.bindingsRequis.add(binding);
 
         return true;
+    }
+
+    public List<ServiceFourni> getServicesFournis(){
+        List<ServiceFourni> servicesFournis = new ArrayList<>();
+
+        for(ComposantAbstrait composant : this.composantsAbstraits){
+            servicesFournis.addAll(composant.getServicesFournis());
+        }
+
+        return servicesFournis;
+    }
+
+    public void appelerService(ComposantAbstrait source, ComposantAbstrait cible, ServiceFourni service, Object params){
+
+        System.out.println("Configuration (" + this.getClass().getName() + ") call " + service.getClass().getName() + " service");
+
+        Iterator it = this.connecteurs.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            Map<String, Object> connecteurConfig = (Map<String, Object>) pair.getValue();
+            Set<ComposantAbstrait> composants = (Set<ComposantAbstrait>) connecteurConfig.get(this.CONNECTEUR_COMPOSANTS_KEY);
+
+            if(composants.containsAll(Arrays.asList(source, cible))){
+                Set<AttachementFourni> attachementFournis = (Set<AttachementFourni>) connecteurConfig.get(this.CONNECTEUR_ATTACHEMENTS_F_KEY);
+                AttachementFourni attachementFourni = (AttachementFourni) attachementFournis.toArray()[0];
+                attachementFourni.getPort().transferer(params);
+            }
+        }
     }
 }

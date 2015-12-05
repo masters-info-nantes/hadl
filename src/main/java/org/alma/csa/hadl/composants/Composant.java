@@ -5,7 +5,9 @@ import org.alma.csa.hadl.composants.interfaces.ports.PortComposantRequis;
 import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
 import org.alma.csa.hadl.composants.interfaces.services.ServiceRequis;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,5 +43,9 @@ public class Composant extends ComposantAbstrait {
         this.portsFournis.addAll(service.getPortsFournis());
 
         this.servicesFournis.add(service);
+    }
+
+    public List<ServiceFourni> getServicesFournis(){
+        return new ArrayList<>(this.servicesFournis);
     }
 }

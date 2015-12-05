@@ -8,4 +8,11 @@ import java.util.Observable;
  * Created by Eva on 15/11/16.
  */
 public abstract class Role extends Observable implements PointConnexion {
+    public void tranferer(Object message){
+
+        System.out.println("Role (" + this.getClass().getName() + ") forwards " + message);
+
+        // this.setChanged();
+       // this.notifyObservers(message);
+    }
 }

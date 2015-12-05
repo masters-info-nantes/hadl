@@ -1,5 +1,8 @@
 package org.alma.csa;
 
+import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
+import org.alma.csa.metamodele.Application;
+import org.alma.csa.metamodele.client.Client;
 import org.alma.csa.metamodele.client.ServiceSocketF;
 import org.alma.csa.metamodele.client.SocketFourni;
 import org.alma.csa.metamodele.connecteur.*;
@@ -218,7 +221,18 @@ public class App
         LienServeurR lienServeurR = new LienServeurR(externalSocketRequis,roleServeurF);
         LienClientF lienClientF = new LienClientF(socketFourni, roleClientR);
 
+        Client client = new Client(serviceSocketF);
 
+
+
+        // Application
+        Application application = new Application(
+            serveur, client, rpcClientServeur,
+            lienClientF, lienServeurR
+        );
+
+
+        application.appelerService(client, serveur, serveur.getServicesFournis().get(5), "coucou");
 
     }
 }
