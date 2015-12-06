@@ -62,13 +62,13 @@ public class Composant extends ComposantAbstrait implements Observer {
 
         System.out.println("[" + this.getClass().getName() + ". update]: " + message);
 
-        if(!this.servicesFournis.contains(message.getService())){
-            this.setChanged();
-            this.notifyObservers(message);
+        if(this.servicesFournis.contains(message.getServiceCible())){
+            System.out.println("Réponse");
+            message.repondre();
         }
-        else {
-            System.out.println("END");
-        }
+
+        this.setChanged();
+        this.notifyObservers(message);
     }
 
     public ServiceRequis chercherServiceRequis(Port port) {

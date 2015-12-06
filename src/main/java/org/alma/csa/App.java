@@ -230,7 +230,7 @@ public class App
                 lienClientR, lienServeurF
         );
 
-        //serveur.appelerService(connectionManager, serviceSecurityAuthR, serviceSecurityCheckF, "coucou");
-        application.appelerService(client, serviceSocketR, serviceSecurityAuthF, "coucou");
+       serveur.appelerService(connectionManager, serviceSecurityAuthR, serviceSecurityCheckF, "coucou");
+ //       application.appelerService(client, serviceSocketR, serviceSecurityAuthF, "coucou");
     }
 }
