@@ -16,13 +16,6 @@ public abstract class Binding implements Observer {
     public Binding(Port portSource, PortConfiguration portConfiguration){
         this.portConfiguration = portConfiguration;
         this.portSource = portSource;
-
-        this.portConfiguration.addObserver(this);
-        this.portSource.addObserver(this);
-    }
-
-    public void update(Observable obs, Object obj) {
-
     }
 
     public Port getPortSource(){

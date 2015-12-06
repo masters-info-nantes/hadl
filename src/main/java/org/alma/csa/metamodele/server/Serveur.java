@@ -70,10 +70,10 @@ public class Serveur extends Configuration {
             attachementsFournis, attachementsRequis
         );
 
-        attachementsFournis.clear();
+        attachementsFournis = new HashSet<>();
         attachementsFournis.addAll(Arrays.asList(lienCheckQueryF, lienSecurityManagerF));
 
-        attachementsRequis.clear();
+        attachementsRequis = new HashSet<>();
         attachementsRequis.addAll(Arrays.asList(lienCheckQueryR, lienSecurityManagerR));
 
         super.ajouterConnecteur(
@@ -82,10 +82,10 @@ public class Serveur extends Configuration {
             attachementsFournis, attachementsRequis
         );
 
-        attachementsFournis.clear();
+        attachementsFournis = new HashSet<>();
         attachementsFournis.addAll(Arrays.asList(lienDbQueryF, lienQueryDatabaseF));
 
-        attachementsRequis.clear();
+        attachementsRequis = new HashSet<>();
         attachementsRequis.addAll(Arrays.asList(lienDbQueryR, lienQueryDatabaseR));
 
         super.ajouterConnecteur(

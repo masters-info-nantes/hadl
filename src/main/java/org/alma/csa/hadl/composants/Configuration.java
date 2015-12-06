@@ -1,8 +1,12 @@
 package org.alma.csa.hadl.composants;
 
+import org.alma.csa.hadl.composants.interfaces.Message;
+import org.alma.csa.hadl.composants.interfaces.ports.Port;
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationFourni;
 import org.alma.csa.hadl.composants.interfaces.ports.PortConfigurationRequis;
+import org.alma.csa.hadl.composants.interfaces.services.Service;
 import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
+import org.alma.csa.hadl.composants.interfaces.services.ServiceRequis;
 import org.alma.csa.hadl.connecteurs.Connecteur;
 import org.alma.csa.hadl.liens.attachement.AttachementFourni;
 import org.alma.csa.hadl.liens.attachement.AttachementRequis;
@@ -14,7 +18,7 @@ import java.util.*;
 /**
  * Created by jeremy on 11/11/15.
  */
-public class Configuration extends ComposantAbstrait {
+public class Configuration extends ComposantAbstrait implements Observer {
 
     private static final String CONNECTEUR_COMPOSANTS_KEY = "composants";
     private static final String CONNECTEUR_ATTACHEMENTS_F_KEY = "attachementsF";
@@ -44,6 +48,7 @@ public class Configuration extends ComposantAbstrait {
 
     public void ajouterComposant(ComposantAbstrait composant){
         this.composantsAbstraits.add(composant);
+        composant.addObserver(this);
     }
 
     public void ajouterPortFourni(PortConfigurationFourni portConfigurationF){
@@ -110,22 +115,48 @@ public class Configuration extends ComposantAbstrait {
         return servicesFournis;
     }
 
-    public void appelerService(ComposantAbstrait source, ComposantAbstrait cible, ServiceFourni service, Object params){
+    public void appelerService(ComposantAbstrait source, ServiceRequis serviceRequis, ServiceFourni serviceFourni, Object args){
 
-        System.out.println("Configuration (" + this.getClass().getName() + ") call " + service.getClass().getName() + " service");
+        System.out.println("[" + this.getClass().getName() + ". appelerService]: " + serviceRequis.getClass().getName());
 
+        Message message = new Message(args, serviceFourni);
+
+        Port port = (Port) serviceRequis.getPortsRequis().toArray()[0];
+        port.transferer(message);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Message message = (Message) arg;
+
+        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+
+        Composant composant = (Composant) o;
+        ComposantAbstrait composantCible = null;
+
+        // Composant du service ciblé
+        for(ComposantAbstrait composantAbstrait: this.composantsAbstraits){
+            if(composantAbstrait.getServicesFournis().contains(message.getService())){
+                composantCible = composantAbstrait;
+            }
+        }
+
+        ServiceRequis serviceReq = null;
         Iterator it = this.connecteurs.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
-            Map<String, Object> connecteurConfig = (Map<String, Object>) pair.getValue();
-            Set<ComposantAbstrait> composants = (Set<ComposantAbstrait>) connecteurConfig.get(this.CONNECTEUR_COMPOSANTS_KEY);
+            Map<String, Object> composantProperties = (Map<String, Object>) pair.getValue();
+            Set<ComposantAbstrait> composantsAb = (Set<ComposantAbstrait>) composantProperties.get(CONNECTEUR_COMPOSANTS_KEY);
 
-            if(composants.containsAll(Arrays.asList(source, cible))){
-                Set<AttachementFourni> attachementFournis = (Set<AttachementFourni>) connecteurConfig.get(this.CONNECTEUR_ATTACHEMENTS_F_KEY);
-                AttachementFourni attachementFourni = (AttachementFourni) attachementFournis.toArray()[0];
-                attachementFourni.getPort().transferer(params);
+            if(composantsAb.containsAll(Arrays.asList(composant, composantCible))){
+                Set<AttachementRequis> attachementRequisT = (Set<AttachementRequis>) composantProperties.get(CONNECTEUR_ATTACHEMENTS_R_KEY);
+                AttachementRequis attachementR = (AttachementRequis) attachementRequisT.toArray()[0];
+
+                serviceReq = composant.chercherServiceRequis(attachementR.getPort());
             }
         }
+
+        this.appelerService(composant, serviceReq, message.getService(), message.getMessage());
     }
 }

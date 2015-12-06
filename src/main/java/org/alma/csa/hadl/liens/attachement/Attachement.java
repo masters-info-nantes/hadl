@@ -1,5 +1,6 @@
 package org.alma.csa.hadl.liens.attachement;
 
+import org.alma.csa.hadl.composants.interfaces.Message;
 import org.alma.csa.hadl.composants.interfaces.ports.Port;
 import org.alma.csa.hadl.composants.interfaces.services.Service;
 import org.alma.csa.hadl.connecteurs.Role;
@@ -17,18 +18,9 @@ public abstract class Attachement implements Observer {
     public Attachement(Port port, Role role){
         this.port = port;
         this.role = role;
-
-        this.port.addObserver(this);
-        this.role.addObserver(this);
     }
 
-    public void update(Observable obs, Object obj) {
-        System.out.println("Attachement (" + this.getClass().getName() + ") notified to forward " + obj);
-
-        this.role.tranferer(obj);
-    }
-
-    public Port getPort(){
-        return this.port;
+    public Port getPort() {
+        return port;
     }
 }

@@ -1,19 +1,18 @@
 package org.alma.csa.hadl.composants;
 
+import org.alma.csa.hadl.composants.interfaces.Message;
+import org.alma.csa.hadl.composants.interfaces.ports.Port;
 import org.alma.csa.hadl.composants.interfaces.ports.PortComposantFourni;
 import org.alma.csa.hadl.composants.interfaces.ports.PortComposantRequis;
 import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
 import org.alma.csa.hadl.composants.interfaces.services.ServiceRequis;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by jeremy on 11/11/15.
  */
-public class Composant extends ComposantAbstrait {
+public class Composant extends ComposantAbstrait implements Observer {
 
     private Set<PortComposantRequis> portsRequis;
     private Set<PortComposantFourni> portsFournis;
@@ -34,6 +33,10 @@ public class Composant extends ComposantAbstrait {
         this.portsRequis.addAll(service.getPortsRequis());
         this.portsFournis.addAll(service.getPortsFournis());
 
+        for(PortComposantFourni port: service.getPortsFournis()){
+            port.addObserver(this);
+        }
+
         this.servicesRequis.add(service);
     }
 
@@ -42,10 +45,38 @@ public class Composant extends ComposantAbstrait {
         this.portsRequis.addAll(service.getPortsRequis());
         this.portsFournis.addAll(service.getPortsFournis());
 
+        for(PortComposantFourni port: service.getPortsFournis()){
+            port.addObserver(this);
+        }
+
         this.servicesFournis.add(service);
     }
 
     public List<ServiceFourni> getServicesFournis(){
         return new ArrayList<>(this.servicesFournis);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Message message = (Message) arg;
+
+        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+
+        if(!this.servicesFournis.contains(message.getService())){
+            this.setChanged();
+            this.notifyObservers(message);
+        }
+        else {
+            System.out.println("END");
+        }
+    }
+
+    public ServiceRequis chercherServiceRequis(Port port) {
+        for(ServiceRequis service : this.servicesRequis){
+            if(service.getPortsRequis().contains(port)){
+                return service;
+            }
+        }
+        return null;
     }
 }

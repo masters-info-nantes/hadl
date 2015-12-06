@@ -6,5 +6,5 @@ import org.alma.csa.hadl.connecteurs.RoleRequis;
 /**
  * Created by Eva on 15/11/16.
  */
-public class RoleServeurF extends RoleFourni {
+public class RoleClientF extends RoleFourni {
 }

@@ -1,10 +1,9 @@
 package org.alma.csa;
 
-import org.alma.csa.hadl.composants.interfaces.services.ServiceFourni;
 import org.alma.csa.metamodele.Application;
 import org.alma.csa.metamodele.client.Client;
-import org.alma.csa.metamodele.client.ServiceSocketF;
-import org.alma.csa.metamodele.client.SocketFourni;
+import org.alma.csa.metamodele.client.ServiceSocketR;
+import org.alma.csa.metamodele.client.SocketRequis;
 import org.alma.csa.metamodele.connecteur.*;
 import org.alma.csa.metamodele.server.Serveur;
 import org.alma.csa.metamodele.server.bindings.BindingExternalSocketF;
@@ -200,39 +199,38 @@ public class App
 
 
         //Port Client
-        SocketFourni socketFourni = new SocketFourni();
+        SocketRequis socketRequis = new SocketRequis();
 
         //Service Client
-        ServiceSocketF serviceSocketF = new ServiceSocketF(socketFourni);
+        ServiceSocketR serviceSocketR = new ServiceSocketR(socketRequis);
 
 
 
         //Role Client - Serveur
-        RoleClientR roleClientR = new RoleClientR();
-        RoleServeurF roleServeurF = new RoleServeurF();
+        RoleClientF roleClientF = new RoleClientF();
+        RoleServeurR roleServeurR = new RoleServeurR();
 
         //Glue Client - Serveur
-        GlueClientServeur glueClientServeur = new GlueClientServeur(roleClientR,roleServeurF);
+        GlueServeurClient glueServeurClient = new GlueServeurClient(roleServeurR, roleClientF);
 
         //Connecteur
-        RpcClientServeur rpcClientServeur = new RpcClientServeur(glueClientServeur);
+        RpcClientServeur rpcClientServeur = new RpcClientServeur(glueServeurClient);
 
         //Attachement Client - Serveur
-        LienServeurR lienServeurR = new LienServeurR(externalSocketRequis,roleServeurF);
-        LienClientF lienClientF = new LienClientF(socketFourni, roleClientR);
+        LienServeurF lienServeurF = new LienServeurF(externalSocketConfigF, roleServeurR);
+        LienClientR lienClientR = new LienClientR(socketRequis, roleClientF);
 
-        Client client = new Client(serviceSocketF);
+        Client client = new Client(serviceSocketR);
 
 
 
         // Application
         Application application = new Application(
             serveur, client, rpcClientServeur,
-            lienClientF, lienServeurR
+                lienClientR, lienServeurF
         );
 
-
-        application.appelerService(client, serveur, serveur.getServicesFournis().get(5), "coucou");
-
+        //serveur.appelerService(connectionManager, serviceSecurityAuthR, serviceSecurityCheckF, "coucou");
+        application.appelerService(client, serviceSocketR, serviceSecurityAuthF, "coucou");
     }
 }

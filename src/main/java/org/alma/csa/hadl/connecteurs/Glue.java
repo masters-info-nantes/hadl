@@ -1,5 +1,7 @@
 package org.alma.csa.hadl.connecteurs;
 
+import org.alma.csa.hadl.composants.interfaces.Message;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,8 +22,11 @@ public class Glue implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Glue (" + this.getClass().getName() + ") notified to forward " + arg);
+        Message message = (Message) arg;
 
-        this.roleFourni.tranferer(arg);
+        if(o instanceof RoleFourni) {
+            System.out.println("[" + this.getClass().getName() + ". update]: " + arg);
+            this.roleRequis.transferer(message);
+        }
     }
 }
