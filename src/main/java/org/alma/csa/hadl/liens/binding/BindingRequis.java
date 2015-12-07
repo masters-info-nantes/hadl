@@ -25,7 +25,7 @@ public class BindingRequis extends Binding {
     public void update(Observable obs, Object obj) {
         Message message = (Message) obj;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("\n[BindingRequis: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message + "\n");
         super.getPortConfiguration().transferer(message);
     }
 

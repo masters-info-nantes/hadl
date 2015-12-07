@@ -50,7 +50,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        //System.out.println( "Hello World!" );
+        System.out.println("");
 
         //Port Connection Manager
         DBQueryFourni dBQueryFourni = new DBQueryFourni();
@@ -230,7 +231,7 @@ public class App
                 lienClientR, lienServeurF
         );
 
-       serveur.appelerService(connectionManager, serviceSecurityAuthR, serviceSecurityCheckF, "coucou");
- //       application.appelerService(client, serviceSocketR, serviceSecurityAuthF, "coucou");
+        //serveur.appelerService(connectionManager, serviceSecurityAuthR, serviceSecurityCheckF, "coucou");
+        application.appelerService(client, serviceSocketR, serviceSecurityAuthF, "Bonjour");
     }
 }

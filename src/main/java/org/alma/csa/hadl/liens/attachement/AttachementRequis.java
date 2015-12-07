@@ -25,7 +25,7 @@ public class AttachementRequis extends Attachement {
     public void update(Observable obs, Object obj) {
         Message message = (Message) obj;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("[AttachementRequis: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message);
         super.role.transferer(message);
     }
 }

@@ -10,4 +10,9 @@ public class ServiceSecurityAuthF extends ServiceFourni {
     public ServiceSecurityAuthF(SecurityAuthFourni securityAuthF){
         super.ajouterPortFournis(securityAuthF);
     }
+
+    @Override
+    public Object traitement(Object params){
+        return super.traitement(params) + "Au revoir";
+    }
 }

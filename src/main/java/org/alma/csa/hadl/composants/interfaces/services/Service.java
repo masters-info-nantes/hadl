@@ -27,6 +27,11 @@ public abstract class Service {
         this.portsFournis.add(port);
     }
 
+    public Object traitement(Object params){
+        System.out.println("\n[Service: " + this.getClass().getSimpleName() + ", Méthode: traitement] message = " + params);
+        return "";
+    }
+
     public Set<PortComposantRequis> getPortsRequis(){
         return this.portsRequis;
     }

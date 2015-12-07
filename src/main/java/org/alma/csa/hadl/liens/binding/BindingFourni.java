@@ -26,7 +26,7 @@ public class BindingFourni extends Binding {
     public void update(Observable obs, Object obj) {
         Message message = (Message) obj;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("\n[BindingFourni: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message + "\n");
         super.getPortSource().transferer(message);
     }
 

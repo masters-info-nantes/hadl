@@ -11,7 +11,7 @@ import java.util.Observable;
 public abstract class Role extends Observable implements PointConnexion {
     public void transferer(Message message){
 
-        System.out.println("[" + this.getClass().getName() + ". transferer]: " + message);
+        System.out.println("[Role: " + this.getClass().getSimpleName() + ", Méthode:  transferer] message = " + message);
 
         this.setChanged();
         this.notifyObservers(message);

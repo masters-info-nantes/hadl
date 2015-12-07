@@ -120,7 +120,7 @@ public class Configuration extends ComposantAbstrait implements Observer {
     }
     public void appelerService(ComposantAbstrait source, ServiceRequis serviceRequis, ServiceFourni serviceFourni, Object args){
 
-        System.out.println("[" + this.getClass().getName() + ". appelerService]: " + serviceRequis.getClass().getName());
+        System.out.println("[Configuration: " + this.getClass().getSimpleName() + ", Méthode: appelerService] message = " + args);
 
         Message message = new Message(args, serviceRequis, serviceFourni);
         appelerService(source, message);
@@ -130,42 +130,70 @@ public class Configuration extends ComposantAbstrait implements Observer {
     public void update(Observable o, Object arg) {
         Message message = (Message) arg;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("[Configuration: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message);
 
-        if(message.getStatut() == Message.StatutMessage.REPONSE){
+        Composant composant = (Composant) o;
+        Composant composantCible = null;
 
+        // Composant du service ciblé
+        for (ComposantAbstrait composantAbstrait : this.composantsAbstraits) {
+            if (composantAbstrait.getServicesFournis().contains(message.getServiceCible())) {
+                composantCible = (Composant) composantAbstrait;
+            }
         }
-        else if(message.getStatut() == Message.StatutMessage.SUIVRE){
-            Composant composant = (Composant) o;
-            ComposantAbstrait composantCible = null;
 
-            // Composant du service ciblé
-            for (ComposantAbstrait composantAbstrait : this.composantsAbstraits) {
-                if (composantAbstrait.getServicesFournis().contains(message.getServiceCible())) {
-                    composantCible = composantAbstrait;
+        ServiceRequis serviceReq = null;
+        ServiceFourni serviceFou = null;
+
+        Iterator it = this.connecteurs.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+
+            Map<String, Object> composantProperties = (Map<String, Object>) pair.getValue();
+            Set<ComposantAbstrait> composantsAb = (Set<ComposantAbstrait>) composantProperties.get(CONNECTEUR_COMPOSANTS_KEY);
+
+            if (composantsAb.containsAll(Arrays.asList(composant, composantCible))) {
+
+                // Attachement Requis
+                Set<AttachementRequis> attachementRequisT = (Set<AttachementRequis>) composantProperties.get(CONNECTEUR_ATTACHEMENTS_R_KEY);
+                AttachementRequis attachementR = null;
+
+                for(AttachementRequis attachement : attachementRequisT){
+                    if(message.getStatut() == Message.StatutMessage.SUIVRE && composant.contientPort(attachement.getPort())){
+                        attachementR = attachement;
+                    }
+                    else if(message.getStatut() == Message.StatutMessage.REPONSE && composantCible.contientPort(attachement.getPort())){
+                        attachementR = attachement;
+                    }
                 }
-            }
 
-            ServiceRequis serviceReq = null;
-            Iterator it = this.connecteurs.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
+                serviceReq = composant.chercherServiceRequis(attachementR.getPort());
 
-                Map<String, Object> composantProperties = (Map<String, Object>) pair.getValue();
-                Set<ComposantAbstrait> composantsAb = (Set<ComposantAbstrait>) composantProperties.get(CONNECTEUR_COMPOSANTS_KEY);
-
-                if (composantsAb.containsAll(Arrays.asList(composant, composantCible))) {
-                    Set<AttachementRequis> attachementRequisT = (Set<AttachementRequis>) composantProperties.get(CONNECTEUR_ATTACHEMENTS_R_KEY);
-                    AttachementRequis attachementR = (AttachementRequis) attachementRequisT.toArray()[0];
-
-                    serviceReq = composant.chercherServiceRequis(attachementR.getPort());
+                // Attachement Fourni
+                if(message.getStatut() == Message.StatutMessage.SUIVRE){
+                    serviceFou = message.getServiceCible();
                 }
-            }
+                else {
+                    Set<AttachementFourni> attachementFourniT = (Set<AttachementFourni>) composantProperties.get(CONNECTEUR_ATTACHEMENTS_F_KEY);
+                    AttachementFourni attachementF = null;
 
-            Message response = new Message(message.getMessage(), serviceReq, message.getServiceCible());
+                    for (AttachementFourni attachement : attachementFourniT) {
+                        if (composant.contientPort(attachement.getPort())) {
+                            attachementF = attachement;
+                        }
+                    }
+
+                    serviceFou = composant.chercherServiceFourni(attachementF.getPort());
+                }
+
+            }
+        }
+
+        Message response = new Message(message.getMessage(), serviceReq, serviceFou);
+        if(message.getStatut() == Message.StatutMessage.REPONSE) {
             response.repondre();
-
-            this.appelerService(composant, response);
         }
+
+        this.appelerService(composant, response);
     }
 }

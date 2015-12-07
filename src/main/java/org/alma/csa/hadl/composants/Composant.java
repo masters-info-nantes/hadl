@@ -60,20 +60,41 @@ public class Composant extends ComposantAbstrait implements Observer {
     public void update(Observable o, Object arg) {
         Message message = (Message) arg;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("[Composant: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message);
 
-        if(this.servicesFournis.contains(message.getServiceCible())){
-            System.out.println("Réponse");
-            message.repondre();
+        if(message.getStatut() != Message.StatutMessage.REPONSE) {
+            if (this.servicesFournis.contains(message.getServiceCible())) {
+                message.setMessage(message.getServiceCible().traitement(message.getMessage()));
+                message.repondre();
+
+                System.out.println("--> Appel reçu <--\n");
+            }
+
+            this.setChanged();
+            this.notifyObservers(message);
         }
+        else {
+            message.getServiceCible().traitement(message.getMessage());
+            System.out.println("--> Réponse reçue <--\n");
+        }
+    }
 
-        this.setChanged();
-        this.notifyObservers(message);
+    public boolean contientPort(Port port){
+        return this.portsFournis.contains(port) || this.portsRequis.contains(port);
     }
 
     public ServiceRequis chercherServiceRequis(Port port) {
         for(ServiceRequis service : this.servicesRequis){
             if(service.getPortsRequis().contains(port)){
+                return service;
+            }
+        }
+        return null;
+    }
+
+    public ServiceFourni chercherServiceFourni(Port port) {
+        for(ServiceFourni service : this.servicesFournis){
+            if(service.getPortsFournis().contains(port)){
                 return service;
             }
         }

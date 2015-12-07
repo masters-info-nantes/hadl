@@ -28,7 +28,7 @@ public class AttachementFourni extends Attachement {
 
         Message message = (Message) obj;
 
-        System.out.println("[" + this.getClass().getName() + ". update]: " + message);
+        System.out.println("[AttachementFourni: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message);
         super.port.transferer(message);
     }
 }

@@ -31,6 +31,11 @@ public class Message {
         return message;
     }
 
+    public void setMessage(Object message) {
+        this.message = message;
+    }
+
+
     public ServiceFourni getServiceCible() {
         return serviceCible;
     }
@@ -49,6 +54,6 @@ public class Message {
 
     @Override
     public String toString(){
-        return "[" + this.serviceCible.getClass().getName() + "] " + this.message;
+        return "[" + this.serviceCible.getClass().getSimpleName() + "] " + this.message;
     }
 }

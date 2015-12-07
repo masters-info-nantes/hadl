@@ -8,7 +8,7 @@ import org.alma.csa.hadl.composants.interfaces.Message;
 public class PortComposantFourni extends PortComposant {
     @Override
     public void transferer(Message message){
-        System.out.println("[" + this.getClass().getName() + ". transferer]: " + message);
+        System.out.println("[PortComposantFourni: " + this.getClass().getSimpleName() + ", Méthode:  transferer] message = " + message);
 
         this.setChanged();
         this.notifyObservers(message);

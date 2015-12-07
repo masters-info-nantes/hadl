@@ -8,7 +8,7 @@ import org.alma.csa.hadl.composants.interfaces.Message;
 public class PortConfigurationRequis extends PortConfiguration {
     @Override
     public void transferer(Message message){
-        System.out.println("[" + this.getClass().getName() + ". transferer]: " + message);
+        System.out.println("[PortConfigurationRequis: " + this.getClass().getSimpleName() + ", Méthode:  transferer] message = " + message);
 
         this.setChanged();
         this.notifyObservers(message);

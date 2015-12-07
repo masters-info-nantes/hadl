@@ -25,7 +25,7 @@ public class Glue implements Observer {
         Message message = (Message) arg;
 
         if(o instanceof RoleFourni) {
-            System.out.println("[" + this.getClass().getName() + ". update]: " + arg);
+            System.out.println("\n[Glue: " + this.getClass().getSimpleName() + ", Méthode:  update] message = " + message + "\n");
             this.roleRequis.transferer(message);
         }
     }
